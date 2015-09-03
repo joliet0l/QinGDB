@@ -48,9 +48,10 @@
 QT_BEGIN_NAMESPACE
 class QAction;
 class QMenu;
-class QPlainTextEdit;
 QT_END_NAMESPACE
 
+class QsciScintilla;	
+class QsciLexer;
 //! [0]
 class MainWindow : public QMainWindow
 {
@@ -85,6 +86,7 @@ private slots:
     void onCPUMaster();
     void onCPUSlave();
     void onReqEvent();
+    void onMarginClicked(int margin, int line, Qt::KeyboardModifiers state);
 
 private:
     void createActions();
@@ -97,9 +99,10 @@ private:
 	void create_dock_widgets();
 	
 private:
-    QPlainTextEdit *textEdit;
-    QPlainTextEdit *textEdit2;
-   
+    QsciScintilla *textASM;
+    QsciScintilla *textSource;
+    QsciLexer *cpplexer;
+	
 	QTabWidget *main_tab_widget;
 	EditorToolBar *editToolbar;
 	

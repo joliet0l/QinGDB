@@ -24,6 +24,7 @@
         <file>images/stepover.png</file>
         <file>images/stop.png</file>
         <file>QinGDB.ico</file>
+        <file>images/asm.ico</file>
+        <file>images/c.ico</file>
     </qresource>
 </RCC>
-

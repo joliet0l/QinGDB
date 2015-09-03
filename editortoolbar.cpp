@@ -47,7 +47,8 @@ EditorToolBar::EditorToolBar(QWidget *parent) :
     d->m_fileList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     d->m_fileList->setMinimumContentsLength(32);
     d->m_fileList->setMaxVisibleItems(40);
-    d->m_fileList->setEditable(false);
+    d->m_fileList->setEditable(true);
+    d->m_fileList->setInsertPolicy(QComboBox::NoInsert);
 	
 	//Combo Box function 
     d->m_funcList->setProperty("hideicon", true);
@@ -55,8 +56,9 @@ EditorToolBar::EditorToolBar(QWidget *parent) :
     d->m_funcList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     d->m_funcList->setMinimumContentsLength(48);
     d->m_funcList->setMaxVisibleItems(40);
-    d->m_funcList->setEditable(false);
-
+    d->m_funcList->setEditable(true);
+    d->m_fileList->setInsertPolicy(QComboBox::NoInsert);
+	
 	//Combo Box mode
 	d->m_modeList->setProperty("hideicon", true);
 	d->m_modeList->setProperty("notelideasterisk", true);

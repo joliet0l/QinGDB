@@ -1,12 +1,20 @@
 QT += widgets
 
-HEADERS       = mainwindow.h \
+INCLUDEPATH += $$PWD/include/QScintilla
+
+HEADERS = \
+    mainwindow.h \
     styledbar.h \
     editortoolbar.h
-SOURCES       = main.cpp \
-                mainwindow.cpp \
+SOURCES = \
+    main.cpp \
+    mainwindow.cpp \
     styledbar.cpp \
     editortoolbar.cpp
+	
+LIBS += -L. -lqscintilla2
+
+
 #! [0]
 RESOURCES     = QinGDB.qrc
 #! [0]

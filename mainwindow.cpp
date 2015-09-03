@@ -1,6 +1,9 @@
 
 #include <QtWidgets>
 #include "mainwindow.h"
+#include <Qsci/qsciscintilla.h>
+#include <Qsci/qscilexer.h>
+#include <Qsci/qscilexercpp.h>
 
 MainWindow::MainWindow()
 {
@@ -175,7 +178,6 @@ void MainWindow::createActions()
     gdbRegEvent->setStatusTip(tr("Switch slave CPU"));
     connect(gdbRegEvent, SIGNAL(triggered()), this, SLOT(onReqEvent()));
     
-    
 }
 
 void MainWindow::createMenus()
@@ -287,16 +289,56 @@ void MainWindow::create_main_widget()
 	editToolbar = new EditorToolBar(this);
 
 	//create the editor
-	textEdit = new QPlainTextEdit;
-	textEdit2 = new QPlainTextEdit;
+	textASM = new QsciScintilla;;
+	textSource = new QsciScintilla;
 
-	main_tab_widget->addTab(textEdit, tr ("ASM"));
-	main_tab_widget->addTab(textEdit2, tr ("Source"));
+
+	//font for line number
+    QFont marginFont("Courier", 9);
+	marginFont.setFixedPitch(true);
+	QFontMetrics fontmetrics(marginFont);
+	
+
+	//font for text
+	QFont textFont("Consolas", 11);
+
+	//set asm source
+    textASM->setFont(textFont);
+    textASM->setMarginSensitivity(0, true);
+	textASM->setMarginLineNumbers(1, true);
+    textASM->setMarginsFont(marginFont);
+    textASM->setMarginWidth(1, fontmetrics.width("00000") + 6);
+    textASM->setMarginSensitivity(2, true);
+    textASM->setMarginsBackgroundColor(QColor("#f0f0f0"));
+
+	//set c/c++ source
+	cpplexer = new QsciLexerCPP;
+	cpplexer->setDefaultFont(textFont);
+    textSource->setFont(textFont);
+	textSource->setLexer(cpplexer);
+    textSource->setTabWidth(4);
+
+    //margin 0 for line number
+    textSource->setMarginLineNumbers(0, true);
+    textSource->setMarginsFont(marginFont);
+    textSource->setMarginWidth(0, fontmetrics.width("00000") + 6);
+    textSource->setMarginsBackgroundColor(QColor("#f0f0f0"));
+    //margin 1
+    textSource->setMarginSensitivity(1, true);
+    connect(textSource, SIGNAL(marginClicked(int, int, Qt::KeyboardModifiers)),
+            this, SLOT(onMarginClicked(int, int, Qt::KeyboardModifiers)));
+
+    textSource->markerDefine(QsciScintilla::Circle, 8);
+    textSource->setMarkerBackgroundColor(QColor("#ee1111"), 8);
+
+	//add to tab
+    main_tab_widget->addTab(textASM, QIcon(":/images/asm.ico"), tr ("ASM"));
+    main_tab_widget->addTab(textSource,QIcon(":/images/c.ico"),  tr ("Source"));
+	
 	v_box->addWidget(editToolbar);	
 	v_box->addWidget(main_tab_widget);	
 	setCentralWidget (main_widget);
 
-	//connect (tab_widget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
 }
 
 void MainWindow::create_dock_widgets()
@@ -362,7 +404,14 @@ void MainWindow::onGoto()
 }
 void MainWindow::onSetBP()
 {
+    int line = 0;
+    int index = 0;
 
+    textSource->getCursorPosition(&line, &index);
+    if(textSource->markersAtLine(line) != 0)
+        textSource->markerDelete(line, 8);
+    else
+        textSource->markerAdd(line, 8);
 }
 
 void MainWindow::onDownload()
@@ -380,4 +429,11 @@ void MainWindow::onOptions(){}
 void MainWindow::onCPUMaster(){}
 void MainWindow::onCPUSlave(){}
 void MainWindow::onReqEvent(){}
-    
+
+void MainWindow::onMarginClicked(int margin, int line, Qt::KeyboardModifiers state)
+{
+    if(textSource->markersAtLine(line) != 0)
+        textSource->markerDelete(line, 8);
+    else
+        textSource->markerAdd(line, 8);
+}
