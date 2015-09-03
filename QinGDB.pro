@@ -1,8 +1,12 @@
 QT += widgets
 
-HEADERS       = mainwindow.h
+HEADERS       = mainwindow.h \
+    styledbar.h \
+    editortoolbar.h
 SOURCES       = main.cpp \
-                mainwindow.cpp
+                mainwindow.cpp \
+    styledbar.cpp \
+    editortoolbar.cpp
 #! [0]
 RESOURCES     = QinGDB.qrc
 #! [0]

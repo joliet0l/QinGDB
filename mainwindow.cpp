@@ -4,13 +4,13 @@
 
 MainWindow::MainWindow()
 {
-    textEdit = new QPlainTextEdit;
-    setCentralWidget(textEdit);
-
+   
+	create_main_widget();
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
+	create_dock_widgets();
 
     readSettings();
 
@@ -19,6 +19,8 @@ MainWindow::MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    writeSettings();
+    event->accept();
 
 }
 
@@ -252,7 +254,7 @@ void MainWindow::createStatusBar()
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("QtProject", "Application Example");
+    QSettings settings("ALiTech", "QinGDB");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
@@ -261,11 +263,68 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("QtProject", "Application Example");
+    QSettings settings("ALiTech", "QinGDB");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
 
+void MainWindow::create_main_widget()
+{
+	QWidget *main_widget = new QWidget;
+	QVBoxLayout *v_box = new QVBoxLayout;
+    v_box->setSpacing(0);
+    v_box->setMargin(0);
+	main_widget->setLayout (v_box);
+
+	main_tab_widget = new QTabWidget;
+	main_tab_widget->setObjectName ("main_tab_widget");
+
+    main_tab_widget->setTabShape (QTabWidget::Rounded);
+    main_tab_widget->setTabPosition(QTabWidget::South);
+    main_tab_widget->setMinimumHeight (20);
+
+	//create toolbar
+	editToolbar = new EditorToolBar(this);
+
+	//create the editor
+	textEdit = new QPlainTextEdit;
+	textEdit2 = new QPlainTextEdit;
+
+	main_tab_widget->addTab(textEdit, tr ("ASM"));
+	main_tab_widget->addTab(textEdit2, tr ("Source"));
+	v_box->addWidget(editToolbar);	
+	v_box->addWidget(main_tab_widget);	
+	setCentralWidget (main_widget);
+
+	//connect (tab_widget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
+}
+
+void MainWindow::create_dock_widgets()
+{
+	QDockWidget *dw = new QDockWidget;    
+	dw->setObjectName(tr("Registers Dock"));    
+	dw->setWindowTitle(tr("Registers"));    
+	dw->setWidget(new QTextEdit);
+    addDockWidget(Qt::LeftDockWidgetArea, dw);
+	dwRegisters = dw;
+
+	
+	dw = new QDockWidget;    
+	dw->setObjectName(tr("Output Dock"));    
+	dw->setWindowTitle(tr("Output"));    
+	dw->setWidget(new QTextEdit);
+    addDockWidget(Qt::BottomDockWidgetArea, dw);
+	dwOutput = dw;
+
+	dw = new QDockWidget;    
+	dw->setObjectName(tr("CallStack Dock"));    
+	dw->setWindowTitle(tr("CallStack"));    
+	dw->setWidget(new QTextEdit);
+    addDockWidget(Qt::RightDockWidgetArea, dw);
+	dwCallstack = dw;
+
+	
+}
 
 //============================================================================================
 // Actions SLOTs

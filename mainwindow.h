@@ -42,6 +42,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "editortoolbar.h"
+
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -91,18 +93,25 @@ private:
     void createStatusBar();
     void readSettings();
     void writeSettings();
-   
-
+	void create_main_widget();
+	void create_dock_widgets();
+	
+private:
     QPlainTextEdit *textEdit;
+    QPlainTextEdit *textEdit2;
    
-
+	QTabWidget *main_tab_widget;
+	EditorToolBar *editToolbar;
+	
     QMenu *fileMenu;
     QMenu *debugMenu;
     QMenu *buildMenu;
     QToolBar *fileToolBar;
     QToolBar *debugToolBar;
     QToolBar *buildToolBar;
-    
+
+	//actions
+private:
     //file actions
     QAction *newAct;
     QAction *openAct;
@@ -128,12 +137,12 @@ private:
     QAction *gdbCPUMaster;
     QAction *gdbCPUSlave;
     QAction *gdbRegEvent;
-    
-    
-    
-    
-    
-    
+
+	//dockwidget
+private:    
+    QDockWidget* dwRegisters;
+	QDockWidget* dwOutput;
+	QDockWidget* dwCallstack;
     
     
 };

@@ -40,7 +40,7 @@
 
 //! [0]
 #include <QApplication>
-
+#include <QStyleFactory>
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -48,7 +48,8 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(QinGDB);
 
     QApplication app(argc, argv);
-    app.setOrganizationName("QtProject");
+    //QApplication::setStyle(QStyleFactory::create("Fusion"));
+    app.setOrganizationName("ALiTech");
     app.setApplicationName("QinGDB");
     app.setWindowIcon(QIcon(":/QinGDB.ico"));
     MainWindow mainWin;
