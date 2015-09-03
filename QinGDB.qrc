@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/about.png</file>
+        <file>images/break.png</file>
+        <file>images/burn.png</file>
+        <file>images/download.png</file>
+        <file>images/downloadall.png</file>
+        <file>images/goto.png</file>
+        <file>images/master.png</file>
+        <file>images/mips16.png</file>
+        <file>images/new.png</file>
+        <file>images/open.png</file>
+        <file>images/option.png</file>
+        <file>images/platform.png</file>
+        <file>images/reqevent.png</file>
+        <file>images/reset.png</file>
+        <file>images/restart.png</file>
+        <file>images/setbp.png</file>
+        <file>images/slave.png</file>
+        <file>images/start.png</file>
+        <file>images/stepinto.png</file>
+        <file>images/stepnext.png</file>
+        <file>images/stepout.png</file>
+        <file>images/stepover.png</file>
+        <file>images/stop.png</file>
+        <file>QinGDB.ico</file>
+    </qresource>
+</RCC>
+
