@@ -86,8 +86,8 @@ private slots:
     void onCPUMaster();
     void onCPUSlave();
     void onReqEvent();
-    void onMarginClicked(int margin, int line, Qt::KeyboardModifiers state);
-
+    void onSrcMarginClicked(int margin, int line, Qt::KeyboardModifiers state);
+    void onAsmMarginClicked(int margin, int line, Qt::KeyboardModifiers state);
 private:
     void createActions();
     void createMenus();

@@ -5,9 +5,10 @@
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexercpp.h>
 
+#define MAKER_BREAKPOINT    6
+#define MAKER_RUNAT         7
 MainWindow::MainWindow()
 {
-   
 	create_main_widget();
     createActions();
     createMenus();
@@ -304,12 +305,22 @@ void MainWindow::create_main_widget()
 
 	//set asm source
     textASM->setFont(textFont);
-    textASM->setMarginSensitivity(0, true);
-	textASM->setMarginLineNumbers(1, true);
+    textASM->setTabWidth(4);
+
+    //margin 0 for line number
+    textASM->setMarginLineNumbers(0, true);
     textASM->setMarginsFont(marginFont);
-    textASM->setMarginWidth(1, fontmetrics.width("00000") + 6);
-    textASM->setMarginSensitivity(2, true);
+    textASM->setMarginWidth(0, fontmetrics.width("00000") + 6);
     textASM->setMarginsBackgroundColor(QColor("#f0f0f0"));
+    //margin 1
+    textASM->setMarginSensitivity(1, true);
+    connect(textASM, SIGNAL(marginClicked(int, int, Qt::KeyboardModifiers)),
+            this, SLOT(onAsmMarginClicked(int, int, Qt::KeyboardModifiers)));
+    textASM->markerDefine(QsciScintilla::Circle, MAKER_BREAKPOINT);
+    textASM->setMarkerBackgroundColor(QColor("#ee1111"), MAKER_BREAKPOINT);
+    textASM->markerDefine(QsciScintilla::RightArrow, MAKER_RUNAT);
+    textASM->setMarkerBackgroundColor(QColor("#eeee00"), MAKER_RUNAT);
+
 
 	//set c/c++ source
 	cpplexer = new QsciLexerCPP;
@@ -326,10 +337,13 @@ void MainWindow::create_main_widget()
     //margin 1
     textSource->setMarginSensitivity(1, true);
     connect(textSource, SIGNAL(marginClicked(int, int, Qt::KeyboardModifiers)),
-            this, SLOT(onMarginClicked(int, int, Qt::KeyboardModifiers)));
+            this, SLOT(onSrcMarginClicked(int, int, Qt::KeyboardModifiers)));
 
-    textSource->markerDefine(QsciScintilla::Circle, 8);
-    textSource->setMarkerBackgroundColor(QColor("#ee1111"), 8);
+    textSource->markerDefine(QsciScintilla::Circle, MAKER_BREAKPOINT);
+    textSource->setMarkerBackgroundColor(QColor("#ee1111"), MAKER_BREAKPOINT);
+    textSource->markerDefine(QsciScintilla::RightArrow, MAKER_RUNAT);
+    textSource->setMarkerBackgroundColor(QColor("#eeee00"), MAKER_RUNAT);
+
 
 	//add to tab
     main_tab_widget->addTab(textASM, QIcon(":/images/asm.ico"), tr ("ASM"));
@@ -408,10 +422,11 @@ void MainWindow::onSetBP()
     int index = 0;
 
     textSource->getCursorPosition(&line, &index);
-    if(textSource->markersAtLine(line) != 0)
-        textSource->markerDelete(line, 8);
+    unsigned int makers = textSource->markersAtLine(line);
+    if(( makers & (1<< MAKER_RUNAT)) != 0)
+        textSource->markerDelete(line, MAKER_RUNAT);
     else
-        textSource->markerAdd(line, 8);
+        textSource->markerAdd(line, MAKER_RUNAT);
 }
 
 void MainWindow::onDownload()
@@ -430,10 +445,19 @@ void MainWindow::onCPUMaster(){}
 void MainWindow::onCPUSlave(){}
 void MainWindow::onReqEvent(){}
 
-void MainWindow::onMarginClicked(int margin, int line, Qt::KeyboardModifiers state)
+void MainWindow::onSrcMarginClicked(int margin, int line, Qt::KeyboardModifiers state)
 {
-    if(textSource->markersAtLine(line) != 0)
-        textSource->markerDelete(line, 8);
+    unsigned int makers = textSource->markersAtLine(line);
+    if(( makers & (1<< MAKER_BREAKPOINT)) != 0)
+        textSource->markerDelete(line, MAKER_BREAKPOINT);
     else
-        textSource->markerAdd(line, 8);
+        textSource->markerAdd(line, MAKER_BREAKPOINT);
+}
+void MainWindow::onAsmMarginClicked(int margin, int line, Qt::KeyboardModifiers state)
+{
+    unsigned int makers = textASM->markersAtLine(line);
+    if(( makers & (1<< MAKER_BREAKPOINT)) != 0)
+        textASM->markerDelete(line, MAKER_BREAKPOINT);
+    else
+        textASM->markerAdd(line, MAKER_BREAKPOINT);
 }
