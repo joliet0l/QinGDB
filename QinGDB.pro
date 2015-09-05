@@ -1,22 +1,7 @@
-QT += widgets
+include(QinGDB.pri)
 
-INCLUDEPATH += $$PWD/include/QScintilla
+TEMPLATE  = subdirs
+CONFIG   += ordered
 
-HEADERS = \
-    mainwindow.h \
-    styledbar.h \
-    editortoolbar.h
-SOURCES = \
-    main.cpp \
-    mainwindow.cpp \
-    styledbar.cpp \
-    editortoolbar.cpp
-	
-LIBS += -L. -lqscintilla2
+SUBDIRS = libs core
 
-
-#! [0]
-RESOURCES     = QinGDB.qrc
-#! [0]
-RC_ICONS = QinGDB.ico
-RC_FILE = QinGDB.rc

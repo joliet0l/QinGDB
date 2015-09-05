@@ -4,6 +4,9 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+using namespace Utils;
+
+
 struct EditorToolBarPrivate
 {
     explicit EditorToolBarPrivate(QWidget *parent, EditorToolBar *q);
@@ -12,8 +15,6 @@ struct EditorToolBarPrivate
     QComboBox *m_fileList;
     QComboBox *m_funcList;	
 	QComboBox *m_modeList;	
-
-
 
     bool m_isStandalone;
 };

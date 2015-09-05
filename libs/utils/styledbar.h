@@ -31,9 +31,13 @@
 #ifndef STYLEDBAR_H
 #define STYLEDBAR_H
 
+#include "utils_global.h"
+
 #include <QWidget>
 
-class  StyledBar : public QWidget
+namespace Utils {
+
+class QINGDB_UTILS_EXPORT StyledBar : public QWidget
 {
     Q_OBJECT
 public:
@@ -48,7 +52,7 @@ protected:
     void paintEvent(QPaintEvent *event);
 };
 
-class  StyledSeparator : public QWidget
+class QINGDB_UTILS_EXPORT StyledSeparator : public QWidget
 {
     Q_OBJECT
 public:
@@ -57,6 +61,6 @@ protected:
     void paintEvent(QPaintEvent *event);
 };
 
-
+} // Utils
 
 #endif // STYLEDBAR_H

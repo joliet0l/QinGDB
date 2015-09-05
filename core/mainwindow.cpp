@@ -273,7 +273,7 @@ void MainWindow::writeSettings()
 
 void MainWindow::create_main_widget()
 {
-	QWidget *main_widget = new QWidget;
+    QWidget *main_widget = new QWidget(this);
 	QVBoxLayout *v_box = new QVBoxLayout;
     v_box->setSpacing(0);
     v_box->setMargin(0);
@@ -290,8 +290,8 @@ void MainWindow::create_main_widget()
 	editToolbar = new EditorToolBar(this);
 
 	//create the editor
-	textASM = new QsciScintilla;;
-	textSource = new QsciScintilla;
+    textASM = new QsciScintilla(this);
+    textSource = new QsciScintilla(this);
 
 
 	//font for line number

@@ -34,6 +34,8 @@
 #include <QStyleOption>
 
 
+using namespace Utils;
+
 StyledBar::StyledBar(QWidget *parent)
     : QWidget(parent)
 {
@@ -92,3 +94,5 @@ void StyledSeparator::paintEvent(QPaintEvent *event)
     option.palette = palette();
     style()->drawPrimitive(QStyle::PE_IndicatorToolBarSeparator, &option, &painter, this);
 }
+
+

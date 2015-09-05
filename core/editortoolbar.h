@@ -1,12 +1,12 @@
 #ifndef EDITORTOOLBAR_H
 #define EDITORTOOLBAR_H
 
-#include "styledbar.h"
+#include <utils/styledbar.h>
 
 
 struct EditorToolBarPrivate;
 
-class EditorToolBar : public StyledBar
+class EditorToolBar : public Utils::StyledBar
 {
     Q_OBJECT
 
