@@ -15,6 +15,8 @@ TARGET = QinGDB
 
 LIBS += -lutils -lqscintilla2
 
+#static UTILS lib
+DEFINES += QINGDB_UTILS_STATIC_LIB
 
 
 	

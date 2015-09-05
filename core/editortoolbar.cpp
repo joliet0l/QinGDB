@@ -4,8 +4,6 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-using namespace Utils;
-
 
 struct EditorToolBarPrivate
 {
@@ -30,7 +28,7 @@ EditorToolBarPrivate::EditorToolBarPrivate(QWidget *parent, EditorToolBar *q) :
 
 
 EditorToolBar::EditorToolBar(QWidget *parent) :
-        StyledBar(parent), d(new EditorToolBarPrivate(parent, this))
+        Utils::StyledBar(parent), d(new EditorToolBarPrivate(parent, this))
 {
 
 	//Combo Box pro  
