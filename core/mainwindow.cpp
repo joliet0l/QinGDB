@@ -357,7 +357,15 @@ void MainWindow::create_main_widget()
 
 void MainWindow::create_dock_widgets()
 {
-	QDockWidget *dw = new QDockWidget;    
+    QDockWidget *dw = new QDockWidget;
+    dw->setObjectName(tr("Output Dock"));
+    dw->setWindowTitle(tr("Output"));
+    //dw->setAllowedAreas(Qt::BottomDockWidgetArea);
+    dw->setWidget(new QTextEdit);
+    addDockWidget(Qt::BottomDockWidgetArea, dw);
+    dwOutput = dw;
+
+    dw = new QDockWidget;
 	dw->setObjectName(tr("Registers Dock"));    
 	dw->setWindowTitle(tr("Registers"));    
 	dw->setWidget(new QTextEdit);
@@ -365,12 +373,7 @@ void MainWindow::create_dock_widgets()
 	dwRegisters = dw;
 
 	
-	dw = new QDockWidget;    
-	dw->setObjectName(tr("Output Dock"));    
-	dw->setWindowTitle(tr("Output"));    
-	dw->setWidget(new QTextEdit);
-    addDockWidget(Qt::BottomDockWidgetArea, dw);
-	dwOutput = dw;
+
 
 	dw = new QDockWidget;    
 	dw->setObjectName(tr("CallStack Dock"));    
